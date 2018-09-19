@@ -20,12 +20,14 @@ def get_commiter_email(project):
     commiter_email = list()
     if os.path.exists(ANDROID + project):
         os.chdir(ANDROID + project)
-        commands.getstatusoutput('git log -5 --format=format:"%ct^%ce" > MailList.txt') # output format is unix_time^author email
-        for line in open(os.getcwd() + "/MailList.txt"):
-            commit_time_str = line.split('^')[0]
-            print commit_time_str
-            if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-                commiter_email.append(line.split('^')[1])
+        (result, output) = commands.getstatusoutput('git log -5 --format=format:"%ct^%ae" > MailList.txt') # output format is 'unix_time^author email'
+        # we should also check if path 'ANDROID + project' is really a git repository
+        if (int(result) == 0):
+            for line in open(os.getcwd() + "/MailList.txt"):
+                commit_time_str = line.split('^')[0]
+                print commit_time_str
+                if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
+                    commiter_email.append(line.split('^')[1])
     return commiter_email
 
 
