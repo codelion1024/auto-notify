@@ -24,25 +24,24 @@ def get_commiter_email(project):
         for line in open(os.getcwd() + "/MailList.txt"):
             commit_time_str = line.split('^')[0]
             print commit_time_str
-            #if ((NOW - int(commit_time_str)) <= (16340155 + 1200)):
             if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
                 commiter_email.append(line.split('^')[1])
     return commiter_email
 
 
-BUILD_URL       = sys.argv[1] # jinkens built env BUILD_URL
-PROJECT_NAME    = sys.argv[2]
-MANIFEST_BRANCH = sys.argv[3]
-ANDROID         = sys.argv[4] # android src top dir, $HUDSON_BUILDs_ENV/mydroid/android/qiku/
-JENKINS_URL     = sys.argv[5] # jinkens built env JENKINS_URL
-NOW             = int(time.time())
-CHECK_HOUR      = int(3600 * 6)
-sender          = 'hudson@company.com'
-mail_host       = "xx.xxx.x.x"  # smtp host ip
-JENKINS_URL_XIAN     = 'http://xx.xxx.xx.206:8080/jenkins/'
-JENKINS_URL_SHENZHEN = 'http://xx.xxx.xx.23:8080/jenkins/'
-spm_email_xian       = ['jia@company.com', 'yi@company.com', 'bing@company.com', 'ding@company.com']
-spm_email_shenzhen   = ['kate@company.com', 'jack@company.com', 'andy@company.com']
+BUILD_URL               = sys.argv[1] # jinkens built env BUILD_URL
+PROJECT_NAME            = sys.argv[2]
+MANIFEST_BRANCH         = sys.argv[3]
+ANDROID                 = sys.argv[4] # android src top dir, $HUDSON_BUILDs_ENV/mydroid/android/qiku/
+JENKINS_URL             = sys.argv[5] # jinkens built env JENKINS_URL
+NOW                     = int(time.time())
+CHECK_HOUR              = int(3600 * 6)
+sender                  = 'hudson@company.com'
+mail_host               = "xx.xxx.x.x"  # smtp host ip
+JENKINS_URL_XIAN        = 'http://xx.xxx.xx.206:8080/jenkins/'
+JENKINS_URL_SHENZHEN    = 'http://xx.xxx.xx.23:8080/jenkins/'
+spm_email_xian          = ['jia@company.com', 'yi@company.com', 'bing@company.com', 'ding@company.com']
+spm_email_shenzhen      = ['kate@company.com', 'jack@company.com', 'andy@company.com']
 
 qiku_commiter_email         = get_commiter_email('')
 art_commiter_email          = get_commiter_email('art')
@@ -112,7 +111,7 @@ Email_Body = "代码编译报错,请SPM通知代码修改者解决" + "<br>项�
 
 
 
-message 		   = MIMEText(Email_Body, 'html', 'utf-8')
+message            = MIMEText(Email_Body, 'html', 'utf-8')
 message['From']    = Header("hudson@company.com", 'utf-8')
 message['To']      = _format_addr('软件代表 <%s>' % ''.join(Email_All))
 message['Subject'] = Header(subject,'utf-8')
