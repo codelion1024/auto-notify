@@ -260,8 +260,8 @@ elif JENKINS_URL==JENKINS_URL_SHENZHEN:
 
 
 
-subject = "测试邮件,不用回复 **重要**"+ "项目编译报错"
-Email_Body = "代码编译报错,请SPM通知代码修改者解决" + "<br>项目:" + PROJECT_NAME + "<br>代码分支:" + MANIFEST_BRANCH + "<br>编译任务地址:" + BUILD_URL +" <br>代码修改者: " \
+subject = "重要"+ "项目编译报错"
+Email_Body = "代码编译报错,请SPM通知代码修改者解决" + "<br>项目:" + PROJECT_NAME + "<br>代码分支:" + MANIFEST_BRANCH + "<br>编译任务地址:" + BUILD_URL +" <br>各仓库6小时内代码修改者(最多5个): " \
              + "<br> project android/qiku " + ''.join(qiku_commiter_email) \
              + "<br> project android/qiku/art " + ''.join(art_commiter_email) \
              + "<br> project android/qiku/bionic " + ''.join(bionic_commiter_email) \
