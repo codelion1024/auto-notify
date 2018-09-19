@@ -48,7 +48,6 @@ frameworks_commiter_email   = list()
 hardware_commiter_email     = list()
 kernel_commiter_email       = list()
 libcore_commiter_email      = list()
-#manifests_commiter_email    = list()
 packages_commiter_email     = list()
 prebuilts_commiter_email    = list()
 script_commiter_email       = list()
@@ -180,13 +179,6 @@ for line in open(os.getcwd() + "/MailList.txt"):
     if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
         libcore_commiter_email.append(line.split('^')[1])
 
-#os.chdir(ANDROID + 'manifests')
-#commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-#for line in open(os.getcwd() + "/MailList.txt"):
-#    commit_time_str = line.split('^')[0]
-#    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-#        manifests_commiter_email.append(line.split('^')[1])
-
 os.chdir(ANDROID + 'packages')
 commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
 for line in open(os.getcwd() + "/MailList.txt"):
@@ -288,7 +280,6 @@ Email_Body = "代码编译报错,请SPM通知代码修改者解决" + "<br>项�
              + "<br> project android/qiku/vendor/gms " + ''.join(gms_commiter_email) \
              + "<br> project android/qiku/vendor/qcom/proprietary/mm-camera " + ''.join(mm_camera_commiter_email) \
              + "<br> project android/qiku/vendor/qiku " + ''.join(vendor_qiku_commiter_email)
-             #+ "<br> project android/qiku/manifests " + ''.join(manifests_commiter_email)
 
 
 
