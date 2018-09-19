@@ -20,7 +20,7 @@ def get_commiter_email(project):
     commiter_email = list()
     if os.path.exists(ANDROID + project):
         os.chdir(ANDROID + project)
-        (result, output) = commands.getstatusoutput('git log -5 --format=format:"%ct^%ce" > MailList.txt') # output format is 'unix_time^author email'
+        (result, output) = commands.getstatusoutput('git log -5 --format=format:"%ct^%ae" > MailList.txt') # output format is 'unix_time^author email'
         # we should also check if path 'ANDROID + project' is really a git repository
         if (int(result) == 0):
             for line in open(os.getcwd() + "/MailList.txt"):
