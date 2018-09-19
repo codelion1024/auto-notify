@@ -16,6 +16,18 @@ def _format_addr(s):
     name, addr = parseaddr(s)
     return formataddr((Header(name, 'utf-8').encode(), addr))
 
+def get_commiter_email(project):
+    commiter_email = list()
+    os.chdir(ANDROID + project)
+    commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is unix_time^author email
+    for line in open(os.getcwd() + "/MailList.txt"):
+        commit_time_str = line.split('^')[0]
+        print commit_time_str
+        #if ((NOW - int(commit_time_str)) <= (16340155 + 1200)):
+        if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
+            commiter_email.append(line.split('^')[1])
+    return commiter_email
+
 
 BUILD_URL       = sys.argv[1] # jinkens built env BUILD_URL
 PROJECT_NAME    = sys.argv[2]
@@ -31,216 +43,32 @@ JENKINS_URL_SHENZHEN = 'http://xx.xxx.xx.23:8080/jenkins/'
 spm_email_xian       = ['jia@company.com', 'yi@company.com', 'bing@company.com', 'ding@company.com']
 spm_email_shenzhen   = ['kate@company.com', 'jack@company.com', 'andy@company.com']
 
-qiku_commiter_email         = list()
-art_commiter_email          = list()
-bionic_commiter_email       = list()
-edk2_commiter_email         = list()
-lk_commiter_email           = list()
-recovery_commiter_email     = list()
-bsp_commiter_email          = list()
-build_commiter_email        = list()
-dalvik_commiter_email       = list()
-development_commiter_email  = list()
-device_commiter_email       = list()
-device_360OS_commiter_email = list()
-external_commiter_email     = list()
-frameworks_commiter_email   = list()
-hardware_commiter_email     = list()
-kernel_commiter_email       = list()
-libcore_commiter_email      = list()
-packages_commiter_email     = list()
-prebuilts_commiter_email    = list()
-script_commiter_email       = list()
-system_commiter_email       = list()
-vendor_commiter_email       = list()
-vendor_360OS_commiter_email = list()
-gms_commiter_email          = list()
-mm_camera_commiter_email    = list()
-vendor_qiku_commiter_email  = list()
-
-
-os.chdir(ANDROID)
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    #if ((NOW - int(commit_time_str)) <= (16340155 + 1200)):
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        qiku_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'art')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        art_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'bionic')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        bionic_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'bootable/bootloader/edk2')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        art_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'bootable/bootloader/lk')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        lk_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'bootable/recovery')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        recovery_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'bsp')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        bsp_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'build')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        build_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'dalvik')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        dalvik_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'development')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        development_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'device')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        device_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'device/360OS')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        device_360OS_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'external')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        external_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'frameworks')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        frameworks_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'hardware')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        hardware_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'kernel')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        kernel_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'libcore')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        libcore_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'packages')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        packages_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'prebuilts')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        prebuilts_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'script')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        script_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'system')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        system_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'vendor')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        vendor_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'vendor/360OS')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        vendor_360OS_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'vendor/gms')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        gms_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'vendor/qcom/proprietary/mm-camera')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        mm_camera_commiter_email.append(line.split('^')[1])
-
-os.chdir(ANDROID + 'vendor/qiku')
-commands.getstatusoutput('git log -5 --format=format:"%at^%ce" > MailList.txt') # output format is 'unix_time^author email'
-for line in open(os.getcwd() + "/MailList.txt"):
-    commit_time_str = line.split('^')[0]
-    if ((NOW - int(commit_time_str)) <= CHECK_HOUR):
-        vendor_qiku_commiter_email.append(line.split('^')[1])
+qiku_commiter_email         = get_commiter_email('')
+art_commiter_email          = get_commiter_email('art')
+bionic_commiter_email       = get_commiter_email('bionic')
+edk2_commiter_email         = get_commiter_email('bootable/bootloader/edk2')
+lk_commiter_email           = get_commiter_email('bootable/bootloader/lk')
+recovery_commiter_email     = get_commiter_email('bootable/recovery')
+bsp_commiter_email          = get_commiter_email('bsp')
+build_commiter_email        = get_commiter_email('build')
+dalvik_commiter_email       = get_commiter_email('dalvik')
+development_commiter_email  = get_commiter_email('development')
+device_commiter_email       = get_commiter_email('device')
+device_360OS_commiter_email = get_commiter_email('device/360OS')
+external_commiter_email     = get_commiter_email('external')
+frameworks_commiter_email   = get_commiter_email('frameworks')
+hardware_commiter_email     = get_commiter_email('hardware')
+kernel_commiter_email       = get_commiter_email('kernel')
+libcore_commiter_email      = get_commiter_email('libcore')
+packages_commiter_email     = get_commiter_email('packages')
+prebuilts_commiter_email    = get_commiter_email('prebuilts')
+script_commiter_email       = get_commiter_email('script')
+system_commiter_email       = get_commiter_email('system')
+vendor_commiter_email       = get_commiter_email('vendor')
+vendor_360OS_commiter_email = get_commiter_email('vendor/360OS')
+gms_commiter_email          = get_commiter_email('vendor/gms')
+mm_camera_commiter_email    = get_commiter_email('vendor/qcom/proprietary/mm-camera')
+vendor_qiku_commiter_email  = get_commiter_email('vendor/qiku')
 
 
 # $JENKINS_URL is the env variable powered by jenkins(http://xx.xxx.xx.206:8080/jenkins/env-vars.html/), available to shell scripts
